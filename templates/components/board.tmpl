@@ -1,0 +1,8 @@
+{{define "board"}}
+    <div class="game">
+        <div class="player">GM {{ .White }} <span class="clock">{{ .TimeWhite }}</span></div>
+        <div class="board" id="{{ .GameNumber }}"></div>
+        <div class="player">GM {{ .Black }} <span class="clock">{{ .TimeBlack }}</span></div>
+        <p class="result">{{ .Result }}</p>
+    </div>
+{{end}}

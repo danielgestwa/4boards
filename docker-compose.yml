@@ -1,0 +1,32 @@
+services:
+  4boards-db:
+    image: mysql
+    ports:
+      - "3306:3306"
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+    networks:
+      - 4boards
+
+  4boards-app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev   # use a dev Dockerfile with Air
+    volumes:
+      - .:/app
+      - air_cache:/go/pkg/mod      # cache dependencies
+    ports:
+      - "8000:80"
+    depends_on:
+      - 4boards-db
+    restart: always
+    networks:
+      - 4boards
+
+volumes:
+  air_cache:
+
+networks:
+  4boards:
+    driver: bridge

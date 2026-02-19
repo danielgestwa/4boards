@@ -1,0 +1,55 @@
+body {
+    font-family: "Roboto", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    font-variation-settings:
+      "wdth" 100;
+    background-color: #121212;
+    color: #e0e0e0;
+}
+
+nav {
+    padding-left: 1rem;
+}
+
+.tt-image {
+    height: 1.8rem;
+    padding: 0px .5rem 0px .5rem;
+}
+
+.game {
+    display: inline-block;
+    padding: 10px;
+}
+
+.all-games {
+    /* width: 65dvw; */
+}
+
+.player {
+    width: 43dvh;
+}
+
+.board {
+    width: 43dvh;
+}
+
+.clock {
+    float: right;
+}
+
+.players {
+    width: 500px;
+    margin: auto;
+    text-align: center;
+    font-size: 1.8em;
+}
+
+table {
+    width: 500px;
+}
+
+thead {
+    text-transform: uppercase;
+}

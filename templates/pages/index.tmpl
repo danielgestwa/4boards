@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Titled Tuesday 4Boards</title>
+
+    <!-- <script src="/htmx.min.js"></script> -->
+    <link href="/main.css" rel="stylesheet" />
+
+    <link rel="stylesheet"
+      href="https://unpkg.com/@chrisoakman/chessboard2@0.5.0/dist/chessboard2.min.css"
+      integrity="sha384-47VeTDpmy4yT21gKPXQcLQYQZwlmz27gEH5NTrOmTk3G/SGvMyltclOW/Q8uE+sL"
+      crossorigin="anonymous">
+    <script src="https://unpkg.com/@chrisoakman/chessboard2@0.5.0/dist/chessboard2.min.js"
+            integrity="sha384-/KwQCjA1GWovZNV3QDVtvSMDzO4reGgarF/RqHipr7hIUElH3r5zNl9WEPPOBRIF"
+            crossorigin="anonymous"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+</head>
+<body>
+    <nav>
+        <h1><img class="tt-image" src="/tt.png">Titled Tuesday 4Boards TEST Stream</h1>
+        <h3>Stream format will be improved, please be patient.</h3>
+        <h4>If You are watching it, please write Your location in the chat. Example: Poland 🇵🇱</h4>
+    </nav>
+
+    <!-- <div class="all-games">
+        {{ range $game := .games }}
+            {{template "board" $game}}
+        {{ end }}
+    </div> -->
+
+    <div id="all-games"></div>
+<!--
+    <div class="players">
+        <table>
+            <thead>
+                <th style="text-decoration: underline;">Currently Followed Players</th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Magnus Carlsen</td>
+                </tr>
+                <tr>
+                    <td>Hikaru Nakamura</td>
+                </tr>
+                <tr>
+                    <td>Hans Niemann</td>
+                </tr>
+                <tr>
+                    <td>Jan-Krzysztof Duda</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+-->
+
+    <script>
+        var boards = {};
+        setInterval(async () => {
+            const response = await fetch(`http://localhost:8000/json/games`);
+            const games = await response.json();
+
+            for (const key of Object.keys(boards)) {
+                const exists = games.map((game) => game.game_number).find((number) => number === key) !== undefined
+                if(!exists) {
+                    $(`#game_${key}`).remove();
+                    delete boards[key]
+                }
+            }
+            
+            for(const game of games) {
+                if(!boards[game.game_number]) {
+                    $("#all-games").append(`
+                        <div id="game_${game.game_number}" class="game">
+                            <div class="player">
+                                <span id="white_${game.game_number}"></span>
+                                <span id="white_time_${game.game_number}" class="clock"></span>
+                            </div>
+                            <div class="board" id="board_${game.game_number}"></div>
+                            <div class="player">
+                                <span id="black_${game.game_number}"></span>
+                                <span id="black_time_${game.game_number}" class="clock"></span>
+                            </div>
+                            <p class="result" id="result_${game.game_number}"></p>
+                        </div>
+                    `);
+                    boards[game.game_number] = {game: game, chessboard: Chessboard2(`board_${game.game_number}`, JSON.parse(game.board)), pos: game.board}
+                }
+
+                const board = boards[game.game_number]
+                if(board.pos != game.board) {
+                    board.chessboard.position(JSON.parse(game.board))
+                }
+
+                $( `#white_${game.game_number}` ).text(game.white)
+                $( `#white_time_${game.game_number}` ).text(game.time_white)
+                $( `#black_${game.game_number}` ).text(game.black)
+                $( `#black_time_${game.game_number}` ).text(game.time_black)
+                $( `#result_${game.game_number}` ).text(game.result)
+            }
+        }, 100)
+    </script>
+
+    <!-- <script>
+        const boardsHTML = document.getElementsByClassName("board")
+        var positions = [];
+
+        for (const boardHTML of boardsHTML) {
+            const game = boardHTML.id
+            const board = Chessboard2(game, 'start')
+            positions[game] = {}
+
+            setInterval(async function(board, game) {
+                const response = await fetch(`http://localhost:8000/json/games/${game}`);
+                const currentPosition = JSON.parse(await response.json());
+
+                if(positions[game] === currentPosition) {
+                    return
+                }
+
+                board.position(currentPosition)
+                positions[game] = currentPosition
+            }, 100, board, game)
+        }
+    </script> -->
+</body>
+</html>

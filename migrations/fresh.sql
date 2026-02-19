@@ -1,0 +1,17 @@
+CREATE DATABASE IF NOT EXISTS local;
+USE local;
+
+DROP TABLE IF EXISTS games;
+
+CREATE TABLE games(
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    game_number VARCHAR(100) NOT NULL,
+    white VARCHAR(100) NOT NULL,
+    black VARCHAR(100) NOT NULL,
+    time_white VARCHAR(100) NOT NULL,
+    time_black VARCHAR(100) NOT NULL,
+    board VARCHAR(500) NOT NULL,
+    result VARCHAR(100) NOT NULL,
+    PRIMARY KEY(id),
+    INDEX(game_number)
+);
