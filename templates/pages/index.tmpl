@@ -24,41 +24,9 @@
 </head>
 <body>
     <nav>
-        <h1><img class="tt-image" src="/tt.png">Titled Tuesday 4Boards TEST Stream</h1>
-        <h3>Stream format will be improved, please be patient.</h3>
-        <h4>If You are watching it, please write Your location in the chat. Example: Poland 🇵🇱</h4>
+        <h1><img class="tt-image" src="/tt.png">Titled Tuesday 4Boards TEST</h1>
     </nav>
-
-    <!-- <div class="all-games">
-        {{ range $game := .games }}
-            {{template "board" $game}}
-        {{ end }}
-    </div> -->
-
     <div id="all-games"></div>
-<!--
-    <div class="players">
-        <table>
-            <thead>
-                <th style="text-decoration: underline;">Currently Followed Players</th>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Magnus Carlsen</td>
-                </tr>
-                <tr>
-                    <td>Hikaru Nakamura</td>
-                </tr>
-                <tr>
-                    <td>Hans Niemann</td>
-                </tr>
-                <tr>
-                    <td>Jan-Krzysztof Duda</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
--->
 
     <script>
         var boards = {};
@@ -106,28 +74,5 @@
             }
         }, 100)
     </script>
-
-    <!-- <script>
-        const boardsHTML = document.getElementsByClassName("board")
-        var positions = [];
-
-        for (const boardHTML of boardsHTML) {
-            const game = boardHTML.id
-            const board = Chessboard2(game, 'start')
-            positions[game] = {}
-
-            setInterval(async function(board, game) {
-                const response = await fetch(`http://localhost:8000/json/games/${game}`);
-                const currentPosition = JSON.parse(await response.json());
-
-                if(positions[game] === currentPosition) {
-                    return
-                }
-
-                board.position(currentPosition)
-                positions[game] = currentPosition
-            }, 100, board, game)
-        }
-    </script> -->
 </body>
 </html>
