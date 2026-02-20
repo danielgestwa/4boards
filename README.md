@@ -1,5 +1,7 @@
 # ♟️ Chess Game Gathering & Viewer
 
+![alt text](https://raw.githubusercontent.com/danielgestwa/4boards/refs/heads/master/images/image.png "4Boards App")
+
 A complete system for:
 
 1. Collecting live chess games from https://www.chess.com using a Tampermonkey userscript  
